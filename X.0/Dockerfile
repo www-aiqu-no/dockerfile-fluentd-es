@@ -15,7 +15,11 @@ RUN apk add --no-cache --update --virtual .build-deps \
  && \
   rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem
 
-USER fluent
-
 COPY fluent.conf /fluentd/etc/
-COPY entrypoint.sh /bin/
+COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+
+RUN chown fluent /bin/docker-entrypoint.sh \
+  && \
+    chmod +x /bin/docker-entrypoint.sh
+
+USER fluent
